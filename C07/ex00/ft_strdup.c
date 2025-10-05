@@ -37,6 +37,30 @@ edge cases: src == null -> return null; empty string handled (allocates 1 byte)
 
 
 
-// Without malloc
+// Without malloc - but with a buffer
 
 
+char	*ft_strdup(char *src)
+{
+	static char	buf[1024];
+	int			i;
+
+	if (!src)
+		return (0);
+	i = 0;
+	while (src[i] && i < (int)sizeof(buf) - 1)
+	{
+		buf[i] = src[i];
+		i++;
+	}
+	buf[i] = '\0';
+	return (buf);
+}
+
+/*
+what: duplicate string into a static internal buffer
+inputs: src -> null-terminated string
+output: pointer to internal static buffer with copy, or 0 if src is null
+edge cases: capacity limited (1023 chars + '\0'); content is overwritten
+            on next call; not thread-safe; do not free the returned pointer
+*/
